@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <title>Documentação do Projeto de NoSQL</title>
+  <meta name="generator" content="editplus" />
+  <meta name="author" content="Marcelo Stefanelli Santos" />
+  <meta name="keywords" content="NoSQL Twitter MongoDB Crawler ETL Java TwitterJ" />
+  <meta name="description" content="Documentação do Projeto da Disciplina de NoSQL do Curso de Ciência de Dados e Big Data do Instituto de Educação Continuada - IEC - da Pontifícia Universidade Católica de Minas Gerais - PUC-MG" />
+   <style type="text/css">
+	h1 {
+		text-align: center;
+	}
+	ol li {
+		padding: 5px;
+		margin-left: 35px;
+	}
+	p {
+		text-align: justify;
+	}
+   </style>
+ </head>
+
+ <body>
+  <h1>Documentação do Projeto de NoSQL</h1>
+	<h3>Índice</h3>
+  <ol>
+	<li><a href="#1">Contexto e aplicação</a></li>
+	<li><a href="#2">Metodologia</a></li>
+	<li><a href="#3">Resultados</a></li>
+	<li><a href="#4">Conclusões</a></li>
+	<li><a href="#5">Trabalhos Futuros</a></li>
+  </ol>
+ 	<h3><a name="1">Contexto e aplicação</a></h3>
+	<p>A aplicação desenvolvida tem o objetivo de coletar as postagens mais recentes do Twitter (www.twitter.com) sobre um tópico de livre escolha, armazená-las localmente, carregá-las no banco de dados NoSQL MongoDB (www.mongodb.com) e, finalmente, produzir análises utilizando os dados disponíveis.</p>
+	<p>A tecnologia utilizada para esta implementação foi a linguagem de programação Java juntamente com as interfaces (<em>APIs</em>) para interconexão com o Twitter (TwitterJ) e o MongoDB (MonogoDB Driver). Para que a implementação mantivesse a independência de qualquer ambiente de desenvolvimento (<em>IDE</em>) como, por exemplo, Eclipse ou NetBeans, toda a compilação e execução é realizada utilizando-se a linha de comando sendo necessário realizar apenas a instalação do ambiente padrão de desenvolvimento para Java (<em>JDK</em>) disponível em java.com e referenciar as <em>APIs</em> citadas conforme descrito no tópico "Metodologia".</p>
+	<p>A metodologia utilizada para captura dos dados foi a leitura das postagens mais recentes com a utilização de um filtro definido como assunto relevante para estudo e exploração.</p>
+	<p>O filtro pode ser definido como qualquer palavra-chave que represente um tema, um local, uma pessoa ou qualquer outro assunto de interesse.</p>
+	<p>A aplicação desenvolvida pode ser utilizada em vários setores com objetivos diversos. Dependendo do filtro e da análise estatística aplicados, a aplicação pode ser explorada por:
+	<ul>
+		<li>empresas de turismo com o objetivo de avaliação de locais de visita com atividades atrativas utilizando análise de sentimento;</li>
+		<li>empresas de mídia e jornalistas para elaboração de reportagens utilizando repercursão de acontecimentos recentes;</li>
+		<li>setores de segurança pública para tentativa de identificação do porte de eventos não-oficiais que necessitem de especial atenção através do número de usuários citando determinado evento ou compartilhando determinada <em>hashtag</em>.</li>
+	</ul>
+	</p>
+	<p>Para o objetivo proposto pela disciplina foi realizado levantamento utilizando-se como filtro, a palavra "Curitiba" que originalmente representa um local - neste caso a cidade que é a capital do estado do Paraná no Brasil - mas, no atual momento, tem sido utilizado metaforicamente para representar um destino incômodo para políticos corruptos que estão sendo julgados e encarcerados naquela cidade.</p>
+	<h3><a name="2">Metodologia</a></h3>
+	<p>A aplicação desenvolvida foi dividida em módulos para melhor entendimento e aprimoramentos futuros sendo assim possível a substituição de um (ou mais) módulo(s), da forma de exibição, do banco de dados ou até mesmo da linguagem de programação.</p>
+	<p>Os módulos foram divididos em:</p>
+	<ol>
+		<li><em>Crawler</em> - módulo que recupera os dados do Twitter e os armazena em um arquivo de <em>log</em>.</li>
+		<li><em>ETL</em> - módulo de extração (<em>Extract</em>), transformação (<em>Transform</em>) e carga (<em>Load</em>) dos dados do <em>log</em> no banco de dados.</li>
+		<li><em>Report</em> - módulo que extrai do banco de dados as informações e relatórios conforme a necessidade apresentada.</li>
+	</ol>
+	<p>Os títulos abaixo descrevem em detalhes o funcionamento e execução de cada um dos módulos</p>
+	<h4><em>Crawler</em></h4>
+	<p>A utilização deste módulo depende de prévia configuração do arquivo twitter4j.properties com as seguintes diretivas:</p>
+	<ul>
+		<li>debug - diretiva para preenchimento com <em>true</em> ou <em>false</em> caso deseje ou não ativar o detalhamento das atividades que estão sendo realizadas durante a execução.</li>
+		<li>oauth.consumerKey, oauth.consumerSecret, oauth.accessToken e oauth.accessTokenSecret - diretivas que devem ser mantidas em sigilo e são obtidas após registro da aplicação em http://twitter.com/oauth_clients/new</li>
+	</ul>
+	<p>A compilação deste módulo pode ser realizada a partir da linha de comando utilizando a seguinte instrução (a partir do subdiretório crawler):</p>
+	<p>Windows:</p> <code>javac -cp .;..;../lib/twitter/twitter4j-core-4.0.4.jar;../lib/twitter/twitter4j-stream-4.0.4.jar TwitterCrawler.java</code>
+	<p>Linux:</p> <code>javac -cp .:..:../lib/twitter/twitter4j-core-4.0.4.jar:../lib/twitter/twitter4j-stream-4.0.4.jar TwitterCrawler.java</code>
+	<p>onde:</p>
+	<ul>
+		<li><em>javac</em> é o comando de compilação padrão do Java.</li>
+		<li>-cp  é a diretiva que aponta a localização das <em>APIs</em> necessárias para a compilação (<em>CLASSPATH</em>).</li>
+		<li>twitter4j-core-4.0.4.jar e twitter4j-stream-4.0.4.jar são os conjuntos de classes da <em>API</em> do TwitterJ.</li>
+		<li>TwitterCrawler.java é o nome da classe implementada para realizar a captação dos <em>tweets</em>.</li>
+	</ul>
+	<p>A execução deste módulo pode ser realizada a partir da linha de comando utilizando a seguinte instrução (a partir do subdiretório crawler):</p>
+	<p>Windows:</p> <code>java -cp .;..;../lib/twitter/twitter4j-core-4.0.4.jar;../lib/twitter/twitter4j-stream-4.0.4.jar TwitterCrawler Curitiba</code>
+	<p>Linux:</p> <code>java -cp .:..:../lib/twitter/twitter4j-core-4.0.4.jar:../lib/twitter/twitter4j-stream-4.0.4.jar TwitterCrawler Curitiba</code>
+	<p>onde:</p>
+	<ul>
+		<li><em>java</em> é o comando de execução padrão do Java.</li>
+		<li>-cp  é a diretiva que aponta a localização das <em>APIs</em> necessárias para a compilação (<em>CLASSPATH</em>).</li>
+		<li>twitter4j-core-4.0.4.jar e twitter4j-stream-4.0.4.jar são os conjuntos de classes da <em>API</em> do TwitterJ.</li>
+		<li>TwitterCrawler é o nome da classe implementada para realizar a captação dos <em>tweets</em>.</li>
+		<li>Curitiba foi o parâmetro indicado como filtro para a busca dos <em>tweets</em>. Nomes compostos ou parâmetros mais complexos devem ser delimitados por aspas duplas como, por exemplo, "Belo Horizonte".</li>
+	</ul>
+	<p>O resultado da execução deste módulo é a geração do arquivo twitter.log no subdiretório "data" em formato <em>JSON</em> contendo os seguintes campos:
+	<ul>
+		<li>"time" - momento da postagem do <em>tweet</em>.</li>
+		<li>"user_id" - identificação do <em>login</em> do usuário.</li>
+		<li>"user" - nome de exibição escolhido pelo usuário.</li>
+		<li>"twit" - texto publicado.</li>
+	</ul>
+	</p>
+	<h4><em>ETL</em></h4>
+	<p>A utilização deste módulo depende de prévia inicialização do banco de dados MongoDB que, a partir do diretório <em>bin</em> na instalação padrão, pode ser realizada pelo comando:</p>
+	<code>mongod -dbpath ../data/db</code>
+	<p>A compilação deste módulo pode ser realizada a partir da linha de comando utilizando a seguinte instrução (a partir do subdiretório ETL):</p>
+	<p>Windows:</p> <code>javac -cp .;..;../lib/mongo/bson-3.0.2.jar;../lib/mongo/mongodb-driver-3.0.2.jar;../lib/mongo/mongodb-driver-core-3.0.2.jar MongoETL.java</code>
+	<p>Linux:</p> <code>javac -cp .:..:../lib/mongo/bson-3.0.2.jar:../lib/mongo/mongodb-driver-3.0.2.jar:../lib/mongo/mongodb-driver-core-3.0.2.jar MongoETL.java</code>
+	<p>onde:</p>
+	<ul>
+		<li><em>javac</em> é o comando de compilação padrão do Java.</li>
+		<li>-cp  é a diretiva que aponta a localização das <em>APIs</em> necessárias para a compilação (<em>CLASSPATH</em>).</li>
+		<li>bson-3.0.2.jar, mongodb-driver-3.0.2.jar e mongodb-driver-core-3.0.2.jar são os conjuntos de classes da <em>API</em> do MongoDB Driver.</li>
+		<li>MongoETL.java é o nome da classe implementada para realizar a carga dos <em>tweets</em> no MongoDB.</li>
+	</ul>
+	<p>A execução deste módulo pode ser realizada a partir da linha de comando utilizando a seguinte instrução (a partir do subdiretório ETL):</p>
+	<p>Windows:</p> <code>java -cp .;..;../lib/mongo/bson-3.0.2.jar;../lib/mongo/mongodb-driver-3.0.2.jar;../lib/mongo/mongodb-driver-core-3.0.2.jar MongoETL</code>
+	<p>Linux:</p> <code>java -cp .:..:../lib/mongo/bson-3.0.2.jar:../lib/mongo/mongodb-driver-3.0.2.jar:../lib/mongo/mongodb-driver-core-3.0.2.jar MongoETL</code>
+	<p>onde:</p>
+	<ul>
+		<li><em>java</em> é o comando de execução padrão do Java.</li>
+		<li>-cp  é a diretiva que aponta a localização das <em>APIs</em> necessárias para a compilação (<em>CLASSPATH</em>).</li>
+		<li>bson-3.0.2.jar, mongodb-driver-3.0.2.jar e mongodb-driver-core-3.0.2.jar são os conjuntos de classes da <em>API</em> do MongoDB Driver.</li>
+		<li>MongoETL é o nome da classe implementada para realizar a carga dos <em>tweets</em> no MongoDB.</li>
+	</ul>
+	<p>O resultado da execução deste módulo é a carga do arquivo twitter.log do subdiretório "data" na <em>collection</em> "tweets" do banco de dados "tweet_db" do MongoDB previamente inicializado no <em>localhost</em>.</p>
+	<h4><em>Report</em></h4>
+	<p>A utilização deste módulo depende de prévia inicialização do banco de dados MongoDB que, a partir do diretório <em>bin</em> na instalação padrão, pode ser realizada pelo comando:</p>
+	<code>mongod -dbpath ../data/db</code>
+	<p>A compilação deste módulo pode ser realizada a partir da linha de comando utilizando a seguinte instrução (a partir do subdiretório report):</p>
+	<p>Windows:</p> <code>javac -cp .;..;../lib/mongo/bson-3.0.2.jar;../lib/mongo/mongodb-driver-3.0.2.jar;../lib/mongo/mongodb-driver-core-3.0.2.jar MongoReport.java</code>
+	<p>Linux:</p> <code>javac -cp .:..:../lib/mongo/bson-3.0.2.jar:../lib/mongo/mongodb-driver-3.0.2.jar:../lib/mongo/mongodb-driver-core-3.0.2.jar MongoReport.java</code>
+	<p>onde:</p>
+	<ul>
+		<li><em>javac</em> é o comando de compilação padrão do Java.</li>
+		<li>-cp  é a diretiva que aponta a localização das <em>APIs</em> necessárias para a compilação (<em>CLASSPATH</em>).</li>
+		<li>bson-3.0.2.jar, mongodb-driver-3.0.2.jar e mongodb-driver-core-3.0.2.jar são os conjuntos de classes da <em>API</em> do MongoDB Driver.</li>
+		<li>MongoReport.java é o nome da classe implementada para executar os relatórios desejados no MongoDB.</li>
+	</ul>
+	<p>A execução deste módulo pode ser realizada a partir da linha de comando utilizando a seguinte instrução (a partir do subdiretório report):</p>
+	<p>Windows:</p> <code>java -cp .;..;../lib/mongo/bson-3.0.2.jar;../lib/mongo/mongodb-driver-3.0.2.jar;../lib/mongo/mongodb-driver-core-3.0.2.jar MongoReport</code>
+	<p>Linux:</p> <code>java -cp .:..:../lib/mongo/bson-3.0.2.jar:../lib/mongo/mongodb-driver-3.0.2.jar:../lib/mongo/mongodb-driver-core-3.0.2.jar MongoReport</code>
+	<p>onde:</p>
+	<ul>
+		<li><em>java</em> é o comando de execução padrão do Java.</li>
+		<li>-cp  é a diretiva que aponta a localização das <em>APIs</em> necessárias para a compilação (<em>CLASSPATH</em>).</li>
+		<li>bson-3.0.2.jar, mongodb-driver-3.0.2.jar e mongodb-driver-core-3.0.2.jar são os conjuntos de classes da <em>API</em> do MongoDB Driver.</li>
+		<li>MongoReport.java é o nome da classe implementada para executar os relatórios desejados no MongoDB.</li>
+	</ul>
+	<p>O resultado da execução deste módulo é o menu abaixo cujos resultados estão dispostos na próxima seção:</p>
+	<pre>Selecione o número do relatório desejado ou 0 (zero) para finalizar:
+[1] Total de Tweets
+[2] Volume de Tweets por dia
+[3] Volume de Tweets por hora do dia
+[4] Termos mais frequentes</pre>
+	<h3><a name="3">Resultados</a></h3>
+	<p><strong>Total de <em>tweets</em> coletados:</strong> 14999</p>
+	<p><strong>Volume de <em>tweets</em> por dia:</strong> 
+	<br />12/12/2016: 3175
+	<br />13/12/2016: 8688
+	<br />14/12/2016: 3136</p>
+	<p><strong>Volume de <em>tweets</em> por hora do dia:</strong>
+	<br />12/12/2016 16h00 ~ 17h00: 85
+	<br />12/12/2016 17h00 ~ 18h00: 103
+	<br />12/12/2016 18h00 ~ 19h00: 478
+	<br />12/12/2016 19h00 ~ 20h00: 512
+	<br />12/12/2016 20h00 ~ 21h00: 546
+	<br />12/12/2016 21h00 ~ 22h00: 467
+	<br />12/12/2016 22h00 ~ 23h00: 495
+	<br />12/12/2016 23h00 ~ 24h00: 489
+	<br />13/12/2016 0h00 ~ 1h00: 320
+	<br />13/12/2016 1h00 ~ 2h00: 465
+	<br />13/12/2016 2h00 ~ 3h00: 305
+	<br />13/12/2016 3h00 ~ 4h00: 131
+	<br />13/12/2016 4h00 ~ 5h00: 78
+	<br />13/12/2016 5h00 ~ 6h00: 75
+	<br />13/12/2016 6h00 ~ 7h00: 143
+	<br />13/12/2016 7h00 ~ 8h00: 223
+	<br />13/12/2016 8h00 ~ 9h00: 318
+	<br />13/12/2016 9h00 ~ 10h00: 471
+	<br />13/12/2016 10h00 ~ 11h00: 478
+	<br />13/12/2016 11h00 ~ 12h00: 506
+	<br />13/12/2016 12h00 ~ 13h00: 502
+	<br />13/12/2016 13h00 ~ 14h00: 521
+	<br />13/12/2016 14h00 ~ 15h00: 485
+	<br />13/12/2016 15h00 ~ 16h00: 428
+	<br />13/12/2016 16h00 ~ 17h00: 452
+	<br />13/12/2016 17h00 ~ 18h00: 406
+	<br />13/12/2016 18h00 ~ 19h00: 399
+	<br />13/12/2016 19h00 ~ 20h00: 467
+	<br />13/12/2016 20h00 ~ 21h00: 463
+	<br />13/12/2016 21h00 ~ 22h00: 245
+	<br />13/12/2016 22h00 ~ 23h00: 461
+	<br />13/12/2016 23h00 ~ 24h00: 346
+	<br />14/12/2016 0h00 ~ 1h00: 241
+	<br />14/12/2016 1h00 ~ 2h00: 223
+	<br />14/12/2016 2h00 ~ 3h00: 105
+	<br />14/12/2016 3h00 ~ 4h00: 62
+	<br />14/12/2016 4h00 ~ 5h00: 43
+	<br />14/12/2016 5h00 ~ 6h00: 27
+	<br />14/12/2016 6h00 ~ 7h00: 65
+	<br />14/12/2016 7h00 ~ 8h00: 113
+	<br />14/12/2016 8h00 ~ 9h00: 180
+	<br />14/12/2016 9h00 ~ 10h00: 204
+	<br />14/12/2016 10h00 ~ 11h00: 332
+	<br />14/12/2016 11h00 ~ 12h00: 348
+	<br />14/12/2016 12h00 ~ 13h00: 345
+	<br />14/12/2016 13h00 ~ 14h00: 317
+	<br />14/12/2016 14h00 ~ 15h00: 436
+	<br />14/12/2016 15h00 ~ 16h00: 95</p>
+	<p><strong>Termos mais frequentes (limitados em 50 itens com, no mínimo, 2 caracteres):</strong>
+	<br />Curitiba ==> 10110.0
+	<br />https ==> 8671.0
+	<br />co ==> 7958.0
+	<br />de ==> 7339.0
+	<br />RT ==> 7330.0
+	<br />em ==> 3846.0
+	<br />curitiba ==> 3253.0
+	<br />Brazil ==> 2971.0
+	<br />que ==> 2670.0
+	<br />24K_7S ==> 1846.0
+	<br />belohorizonte ==> 1688.0
+	<br />riodejaneiro ==> 1688.0
+	<br />do ==> 1601.0
+	<br />24kNoBrasil ==> 1364.0
+	<br />Goodbye ==> 1346.0
+	<br />pra ==> 1335.0
+	<br />in ==> 1301.0
+	<br />um ==> 1208.0
+	<br />PR ==> 1189.0
+	<br />at ==> 1111.0
+	<br />com ==> 1084.0
+	<br />da ==> 1074.0
+	<br />no ==> 1070.0
+	<br />brazil ==> 918.0
+	<br />para ==> 890.0
+	<br />ao ==> 885.0
+	<br />eu ==> 821.0
+	<br />na ==> 817.0
+	<br />seu ==> 727.0
+	<br />CURITIBA ==> 695.0
+	<br />povo ==> 674.0
+	<br />PEC55SIM ==> 656.0
+	<br />se ==> 611.0
+	<br />pessoal ==> 605.0
+	<br />alfafa ==> 598.0
+	<br />brasileiro ==> 586.0
+	<br />comedor ==> 581.0
+	<br />mandando ==> 577.0
+	<br />Recadinho ==> 574.0
+	<br />representando ==> 573.0
+	<br />24K ==> 569.0
+	<br />AnaPaulaDlamari ==> 559.0
+	<br />tem ==> 534.0
+	<br />24U ==> 505.0
+	<br />BeloHorizonte ==> 505.0
+	<br />RiodeJaneiro ==> 502.0
+	<br />por ==> 489.0
+	<br />SaoPaulo ==> 484.0
+	<br />24kinbrazil ==> 481.0
+	<br />24K__OFFICIAL ==> 480.0</p>
+	<p><strong>Termos mais frequentes (limitados em 50 itens com, no mínimo, 3 caracteres):</strong>
+	<br />Curitiba ==> 10110.0
+	<br />https ==> 8671.0
+	<br />curitiba ==> 3253.0
+	<br />Brazil ==> 2971.0
+	<br />que ==> 2670.0
+	<br />24K_7S ==> 1846.0
+	<br />belohorizonte ==> 1688.0
+	<br />riodejaneiro ==> 1688.0
+	<br />24kNoBrasil ==> 1364.0
+	<br />Goodbye ==> 1346.0
+	<br />pra ==> 1335.0
+	<br />com ==> 1084.0
+	<br />brazil ==> 918.0
+	<br />para ==> 890.0
+	<br />seu ==> 727.0
+	<br />CURITIBA ==> 695.0
+	<br />povo ==> 674.0
+	<br />PEC55SIM ==> 656.0
+	<br />pessoal ==> 605.0
+	<br />alfafa ==> 598.0
+	<br />brasileiro ==> 586.0
+	<br />comedor ==> 581.0
+	<br />mandando ==> 577.0
+	<br />Recadinho ==> 574.0
+	<br />representando ==> 573.0
+	<br />24K ==> 569.0
+	<br />AnaPaulaDlamari ==> 559.0
+	<br />tem ==> 534.0
+	<br />24U ==> 505.0
+	<br />BeloHorizonte ==> 505.0
+	<br />RiodeJaneiro ==> 502.0
+	<br />por ==> 489.0
+	<br />SaoPaulo ==> 484.0
+	<br />24kinbrazil ==> 481.0
+	<br />24K__OFFICIAL ==> 480.0
+	<br />mais ==> 467.0
+	<br />est ==> 457.0
+	<br />Moro ==> 455.0
+	<br />uma ==> 446.0
+	<br />vai ==> 445.0
+	<br />ser ==> 417.0
+	<br />dia ==> 411.0
+	<br />via ==> 366.0
+	<br />voc ==> 357.0
+	<br />YouTube ==> 353.0
+	<br />aqui ==> 350.0
+	<br />obrigado ==> 341.0
+	<br />Paran ==> 336.0
+	<br />saopaulo ==> 326.0
+	<br />GkTiZ3NPxH ==> 324.0
+	<h3><a name="4">Conclusões</a></h3>
+	<p>O MongoDB, banco de dados utilizado para elaboração deste projeto, apresentou comportamento bastante satisfatório para o objetivo proposto de análise de dados de redes sociais. O desempenho para execução das consultas mostrou-se bem semelhante aos bancos de dados relacionais mais populares com a vantagem de apresentar um consumo de memória menos significativo.</p>
+	<p>A implementação dos módulos utilizando a linguagem Java nas interações com o banco de dados demandou mais esforço que seria necessário para outros bancos mais populares - que dispõem de mais usuários ativos e diversidade de exemplos. Provavelmente há outras linguagens mais efetivas para esta implementação ou futuramente surjam novas formas de interação para possibilitar mais facilidade aos desenvolvedores desta linguagem.</p>
+	<h3><a name="5">Trabalhos Futuros</a></h3>
+	<p>Um aprimoramento imediato da aplicação para um ambiente de produção poderia ser a substituição do <em>log</em> em arquivo texto para um barramento de serviços. Com esta adaptação, o módulo de captação redirecionaria os dados para uma fila de consumo/processamento pelo módulo de <em>ETL</em>. O módulo de <em>ETL</em>, por sua vez, ao finalizar a execução, alimentaria outra fila que seria imediatamente consumida pelo módulo de relatórios promovendo atualizações em tempo real.</p>
+ </body>
+</html>
