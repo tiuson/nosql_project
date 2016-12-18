@@ -17,13 +17,20 @@
 	p {
 		text-align: justify;
 	}
+	@media print
+	{    
+		.no-print, .no-print *
+		{
+			display: none !important;
+		}
+	}
    </style>
  </head>
 
  <body>
   <h1>Documentação do Projeto de NoSQL</h1>
-	<h3>Índice</h3>
-  <ol>
+	<h3 class="no-print">Índice</h3>
+  <ol class="no-print">
 	<li><a href="#1">Contexto e aplicação</a></li>
 	<li><a href="#2">Metodologia</a></li>
 	<li><a href="#3">Resultados</a></li>
@@ -43,7 +50,7 @@
 	</ul>
 	</p>
 	<p>Para o objetivo proposto pela disciplina foi realizado levantamento utilizando-se como filtro, a palavra "Curitiba" que originalmente representa um local - neste caso a cidade que é a capital do estado do Paraná no Brasil - mas, no atual momento, tem sido utilizado metaforicamente para representar um destino incômodo para políticos corruptos que estão sendo julgados e encarcerados naquela cidade.</p>
-	<h3><a name="2">Metodologia</a></h3>
+	<h3 style="page-break-before: always;"><a name="2">Metodologia</a></h3>
 	<p>A aplicação desenvolvida foi dividida em módulos para melhor entendimento e aprimoramentos futuros sendo assim possível a substituição de um (ou mais) módulo(s), da forma de exibição, do banco de dados ou até mesmo da linguagem de programação.</p>
 	<p>Os módulos foram divididos em:</p>
 	<ol>
@@ -140,12 +147,14 @@
 [2] Volume de Tweets por dia
 [3] Volume de Tweets por hora do dia
 [4] Termos mais frequentes</pre>
-	<h3><a name="3">Resultados</a></h3>
-	<p><strong>Total de <em>tweets</em> coletados:</strong> 14999</p>
+	<h3 style="page-break-before: always;"><a name="3">Resultados</a></h3>
+	<p><strong>Total de <em>tweets</em> coletados:</strong> 14999
+	<br />Tempo total da consulta: 224 milissegundos</p>
 	<p><strong>Volume de <em>tweets</em> por dia:</strong> 
 	<br />12/12/2016: 3175
 	<br />13/12/2016: 8688
-	<br />14/12/2016: 3136</p>
+	<br />14/12/2016: 3136
+	<br />Tempo total da consulta: 5669 milissegundos</p>
 	<p><strong>Volume de <em>tweets</em> por hora do dia:</strong>
 	<br />12/12/2016 16h00 ~ 17h00: 85
 	<br />12/12/2016 17h00 ~ 18h00: 103
@@ -194,7 +203,8 @@
 	<br />14/12/2016 12h00 ~ 13h00: 345
 	<br />14/12/2016 13h00 ~ 14h00: 317
 	<br />14/12/2016 14h00 ~ 15h00: 436
-	<br />14/12/2016 15h00 ~ 16h00: 95</p>
+	<br />14/12/2016 15h00 ~ 16h00: 95
+	<br />Tempo total da consulta: 866 milissegundos</p>
 	<p><strong>Termos mais frequentes (limitados em 50 itens com, no mínimo, 2 caracteres):</strong>
 	<br />Curitiba ==> 10110.0
 	<br />https ==> 8671.0
@@ -245,7 +255,8 @@
 	<br />por ==> 489.0
 	<br />SaoPaulo ==> 484.0
 	<br />24kinbrazil ==> 481.0
-	<br />24K__OFFICIAL ==> 480.0</p>
+	<br />24K__OFFICIAL ==> 480.0
+	<br />Tempo total da consulta: 32995 milissegundos</p>
 	<p><strong>Termos mais frequentes (limitados em 50 itens com, no mínimo, 3 caracteres):</strong>
 	<br />Curitiba ==> 10110.0
 	<br />https ==> 8671.0
@@ -297,7 +308,8 @@
 	<br />Paran ==> 336.0
 	<br />saopaulo ==> 326.0
 	<br />GkTiZ3NPxH ==> 324.0
-	<h3><a name="4">Conclusões</a></h3>
+	<br />Tempo total da consulta: 33986 milissegundos</p>
+	<h3 style="page-break-before: always;"><a name="4">Conclusões</a></h3>
 	<p>O MongoDB, banco de dados utilizado para elaboração deste projeto, apresentou comportamento bastante satisfatório para o objetivo proposto de análise de dados de redes sociais. O desempenho para execução das consultas mostrou-se bem semelhante aos bancos de dados relacionais mais populares com a vantagem de apresentar um consumo de memória menos significativo.</p>
 	<p>A implementação dos módulos utilizando a linguagem Java nas interações com o banco de dados demandou mais esforço que seria necessário para outros bancos mais populares - que dispõem de mais usuários ativos e diversidade de exemplos. Provavelmente há outras linguagens mais efetivas para esta implementação ou futuramente surjam novas formas de interação para possibilitar mais facilidade aos desenvolvedores desta linguagem.</p>
 	<h3><a name="5">Trabalhos Futuros</a></h3>

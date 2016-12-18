@@ -21,6 +21,7 @@ public class MongoReport {
 			printMenu();
 			Scanner reader = new Scanner(System.in);
 			choice = reader.nextInt();
+			long startTime = System.currentTimeMillis();
 			switch (choice) {
 				case 1:
 					printTotal(collection);
@@ -38,6 +39,9 @@ public class MongoReport {
 					printFrequentTerms(collection, "3");
 					break;
 			}
+			long finishTime = System.currentTimeMillis();
+			System.out.println("Tempo total da consulta: " + (finishTime - startTime) + " milissegundos");
+
 		}
 		client.close();
 	}
